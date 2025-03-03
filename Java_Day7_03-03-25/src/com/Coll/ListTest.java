@@ -103,13 +103,32 @@ public class ListTest {
 		empList.add(new Employees(15,21,"Male","George",2019,40000));
 		empList.add(new Employees(10,23,"Male","Mohith",2021,60000));
 		empList.add(new Employees(7,24,"Female","Monisha",2025,300000));
+		empList.add(new Employees(34,25,"Male","Ramesh",2024,50000));
+		empList.add(new Employees(10,23,"Male","Mohith",2021,60000));
+
 		
 		
 		// Printing only names starts with "Mo" and Yoj is after 2020 using stream API
-		List<Employees> fltr = empList.stream().sorted(Comparator.comparing(Employees :: getSalary)).filter(emp -> (emp.getYoj()>=2020 && emp.getName().startsWith("Mo"))).collect(Collectors.toList());
+		List<Employees> fltr = empList.stream().distinct().sorted(Comparator.comparing(Employees :: getSalary)).filter(emp -> (emp.getYoj()>=2020 && emp.getName().startsWith("Mo"))).collect(Collectors.toList());
+		
+		List<String> fltr1 = empList.stream()
+				.filter(emp -> emp.getName().startsWith("Mo")).map(emp -> emp.getName()).toList();
+		
+		fltr1 = fltr1.stream().distinct().toList();
+		
+		int count1 = fltr.size();
+		int count2 = fltr1.size();
+		
+		System.out.println("Count of unique objects: "+count1);
 		
 		fltr.forEach(emp -> System.out.println("Id: "+emp.getId()+", Age: "+emp.getAge()+", Gender: "+emp.getGender()+", Name: "+emp.getName()+", Yoj: "+emp.getYoj()+", Salary: "+emp.getSalary()));
-
+		
+		System.out.println("Count of unique names: "+count2);
+		
+		for(String str : fltr1) {
+			System.out.print(str+" ");
+		}
 	}
+	
 
 }
