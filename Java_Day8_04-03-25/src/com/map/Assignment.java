@@ -122,17 +122,23 @@ public class Assignment {
 	    }
 	}
 
+	// 2 - Category Wise Order
 
-    public static void SortedOrd(List<Orders> ord){
+    public static void CategoryWiseOrders(List<Orders> ord){
         Map<String, Long> res = ord.stream().collect(Collectors.groupingBy(Orders::getCategory,Collectors.counting()));
         res.forEach((k,v)-> System.out.println(k+" "+v));
     }
 
+	// 3 - MaxPrice Order
+
+    
     public static void MaxPrice(List<Orders> ord){
         Optional<Orders> Oo = ord.stream().max(Comparator.comparing(Orders::getPrice));
         Orders or = Oo.get();
         System.out.println(or.getName()+" "+or.getPrice());
     }
+
+	// 4 - Average Monthly Spending 
 
      public static void AvgSpending(List<Orders> ord){
         DoubleSummaryStatistics oStat = ord.stream().collect(Collectors.summarizingDouble(Orders::getPrice));
@@ -140,12 +146,16 @@ public class Assignment {
          System.out.println("Average Spending on the site: "+oStat.getAverage());
      }
 
+	// 5 - MinPrice Order
+     
      public static void MinPrice(List<Orders> ord){
         Optional<Orders> Oo = ord.stream().min(Comparator.comparing(Orders::getPrice));
         Orders or = Oo.get();
         System.out.println("Minimum Price: "+or.getName()+" "+or.getPrice());
      }
 
+	// 6 - First Order of the customer
+     
      public static void FirstOrders(List<Orders> ord){
         Optional<Orders> ordO = ord.stream().min(Comparator.comparing(Orders::getYear).thenComparing(Orders::getMonth));
         Orders o = ordO.get();
@@ -172,13 +182,18 @@ public class Assignment {
 		ordData.add(new Orders(145,"Ajith",6353.28,2022,"May","Salem","Sports",3));
 		ordData.add(new Orders(46,"Kavin",1256.64,2024,"October","Erode","Furniture",6));
 		
+		// 1 - Max Orders
 		Assignment.MaxOrd(ordData);
-		Assignment.AvgSpending(ordData);
-		Assignment.FirstOrders(ordData);
-		// Assignment.MaxOrd(ordData);
+		// 2 - Category Wise Order
+		Assignment.CategoryWiseOrders(ordData);
+		// 3 - MaxPrice Order
 		Assignment.MaxPrice(ordData);
+		// 4 - Average Monthly Spending 
+		Assignment.AvgSpending(ordData);
+		// 5 - MinPrice Order
 		Assignment.MinPrice(ordData);
-		Assignment.SortedOrd(ordData);
-	
+		// 6 - First Order of the customer
+		Assignment.FirstOrders(ordData);
+		
 	}
 }
