@@ -1,7 +1,12 @@
 package com.map;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 class Orders{
 	
@@ -105,11 +110,47 @@ public class Assignment {
 	
 	// 1 - Find out the year with highest number of orders
 	
-	public static void yearWithHighestOrders(List<Orders> ordList) {
-		
-		
-		
+	public static void MaxOrd(List<Orders> ord){
+	    Optional<Orders> o = ord.stream()
+	            .filter(f -> f.getYear() == 2020)
+	            .max(Comparator.comparing(Orders::getQuantity));
+	    
+	    if (o.isPresent()) {
+	        System.out.println(o.get().getQuantity());
+	    } else {
+	        System.out.println("No orders found for the year 2020.");
+	    }
 	}
+
+
+    public static void SortedOrd(List<Orders> ord){
+        Map<String, Long> res = ord.stream().collect(Collectors.groupingBy(Orders::getCategory,Collectors.counting()));
+        res.forEach((k,v)-> System.out.println(k+" "+v));
+    }
+
+    public static void MaxPrice(List<Orders> ord){
+        Optional<Orders> Oo = ord.stream().max(Comparator.comparing(Orders::getPrice));
+        Orders or = Oo.get();
+        System.out.println(or.getName()+" "+or.getPrice());
+    }
+
+     public static void AvgSpending(List<Orders> ord){
+        DoubleSummaryStatistics oStat = ord.stream().collect(Collectors.summarizingDouble(Orders::getPrice));
+
+         System.out.println("Average Spending on the site: "+oStat.getAverage());
+     }
+
+     public static void MinPrice(List<Orders> ord){
+        Optional<Orders> Oo = ord.stream().min(Comparator.comparing(Orders::getPrice));
+        Orders or = Oo.get();
+        System.out.println("Minimum Price: "+or.getName()+" "+or.getPrice());
+     }
+
+     public static void FirstOrders(List<Orders> ord){
+        Optional<Orders> ordO = ord.stream().min(Comparator.comparing(Orders::getYear).thenComparing(Orders::getMonth));
+        Orders o = ordO.get();
+         System.out.println(o.getName());
+     }
 
 	public static void main(String[] args) {
 		
@@ -131,7 +172,13 @@ public class Assignment {
 		ordData.add(new Orders(145,"Ajith",6353.28,2022,"May","Salem","Sports",3));
 		ordData.add(new Orders(46,"Kavin",1256.64,2024,"October","Erode","Furniture",6));
 		
-		
+		Assignment.MaxOrd(ordData);
+		Assignment.AvgSpending(ordData);
+		Assignment.FirstOrders(ordData);
+		// Assignment.MaxOrd(ordData);
+		Assignment.MaxPrice(ordData);
+		Assignment.MinPrice(ordData);
+		Assignment.SortedOrd(ordData);
 	
 	}
 }
