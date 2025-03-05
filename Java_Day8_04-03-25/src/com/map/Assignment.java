@@ -108,42 +108,45 @@ class Orders{
 
 public class Assignment {
 	
-	// 1 - Find out the year with highest number of orders
+	// 1 - Highest order
 	
 	public static void MaxOrd(List<Orders> ord){
 	    Optional<Orders> o = ord.stream()
-	            .filter(f -> f.getYear() == 2020)
+	            .filter(f -> f.getYear() == 20)
 	            .max(Comparator.comparing(Orders::getQuantity));
 	    
 	    if (o.isPresent()) {
 	        System.out.println(o.get().getQuantity());
-	    } else {
-	        System.out.println("No orders found for the year 2020.");
 	    }
+	    
+	    System.out.println("------------------------------------------------");
 	}
 
 	// 2 - Category Wise Order
 
     public static void CategoryWiseOrders(List<Orders> ord){
         Map<String, Long> res = ord.stream().collect(Collectors.groupingBy(Orders::getCategory,Collectors.counting()));
-        res.forEach((k,v)-> System.out.println(k+" "+v));
+        System.out.println("Category wise orders: ");
+        res.forEach((k,v)-> System.out.println(k+" --> "+v));
+        System.out.println("------------------------------------------------");
     }
 
 	// 3 - MaxPrice Order
-
     
-    public static void MaxPrice(List<Orders> ord){
+    public static void MaxPriceOrder(List<Orders> ord){
         Optional<Orders> Oo = ord.stream().max(Comparator.comparing(Orders::getPrice));
         Orders or = Oo.get();
         System.out.println(or.getName()+" "+or.getPrice());
+        System.out.println("------------------------------------------------");
     }
 
 	// 4 - Average Monthly Spending 
 
      public static void AvgSpending(List<Orders> ord){
-        DoubleSummaryStatistics oStat = ord.stream().collect(Collectors.summarizingDouble(Orders::getPrice));
+        DoubleSummaryStatistics stats = ord.stream().collect(Collectors.summarizingDouble(Orders::getPrice));
 
-         System.out.println("Average Spending on the site: "+oStat.getAverage());
+         System.out.println("Average Spending on the site: "+stats.getAverage());
+         System.out.println("------------------------------------------------");
      }
 
 	// 5 - MinPrice Order
@@ -152,14 +155,16 @@ public class Assignment {
         Optional<Orders> Oo = ord.stream().min(Comparator.comparing(Orders::getPrice));
         Orders or = Oo.get();
         System.out.println("Minimum Price: "+or.getName()+" "+or.getPrice());
+        System.out.println("------------------------------------------------");
      }
 
-	// 6 - First Order of the customer
+	// 6 - First Order
      
-     public static void FirstOrders(List<Orders> ord){
+     public static void FirstOrder(List<Orders> ord){
         Optional<Orders> ordO = ord.stream().min(Comparator.comparing(Orders::getYear).thenComparing(Orders::getMonth));
         Orders o = ordO.get();
          System.out.println(o.getName());
+         System.out.println("------------------------------------------------");
      }
 
 	public static void main(String[] args) {
@@ -187,13 +192,13 @@ public class Assignment {
 		// 2 - Category Wise Order
 		Assignment.CategoryWiseOrders(ordData);
 		// 3 - MaxPrice Order
-		Assignment.MaxPrice(ordData);
+		Assignment.MaxPriceOrder(ordData);
 		// 4 - Average Monthly Spending 
 		Assignment.AvgSpending(ordData);
 		// 5 - MinPrice Order
 		Assignment.MinPrice(ordData);
 		// 6 - First Order of the customer
-		Assignment.FirstOrders(ordData);
+		Assignment.FirstOrder(ordData);
 		
 	}
 }
